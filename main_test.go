@@ -1,20 +1,25 @@
 package main
 
 import (
+	"encoding/json"
+	"testing"
+
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestHandler(t *testing.T) {
 
+	bytes, err := json.Marshal(SaveSoundRequest{
+		File: "sound",
+	})
+
 	request := events.APIGatewayProxyRequest{}
+	request.Body = string(bytes)
+
 	expectedResponse := events.APIGatewayProxyResponse{
 		StatusCode: 200,
-		Headers: map[string]string{
-			"Content-Type": "text/html",
-		},
-		Body: "Congratulations",
+		Body:       "sound",
 	}
 
 	response, err := Handler(request)
@@ -22,5 +27,4 @@ func TestHandler(t *testing.T) {
 	assert.Equal(t, response.Headers, expectedResponse.Headers)
 	assert.Contains(t, response.Body, expectedResponse.Body)
 	assert.Equal(t, err, nil)
-
 }
