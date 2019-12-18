@@ -48,8 +48,7 @@ func uploadFile(data string) (*s3manager.UploadOutput, error) {
 	uploader := s3manager.NewUploader(sess)
 
 	return uploader.Upload(&s3manager.UploadInput{
-		ACL:    aws.String("public-read"),
-		Bucket: aws.String("test-bucket"),
+		Bucket: aws.String("meeting-sounds-backet"),
 		Key:    aws.String("hoge.png"),
 		Body:   bytes.NewReader([]byte(data)),
 	})
