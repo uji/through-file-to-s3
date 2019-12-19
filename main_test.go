@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"testing"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -10,13 +9,9 @@ import (
 
 func TestHandler(t *testing.T) {
 
-	bytes, err := json.Marshal(SaveSoundRequest{
-		File: "sound",
-	})
-
 	request := events.APIGatewayProxyRequest{}
 	request.Headers = map[string]string{"Content-Type": "application/json"}
-	request.Body = string(bytes)
+	request.Body = "file_data"
 
 	expectedResponse := events.APIGatewayProxyResponse{}
 	expectedResponse.StatusCode = 400

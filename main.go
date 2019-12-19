@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"encoding/json"
 	"log"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -11,11 +10,6 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 )
-
-// SaveSoundRequest is struct for parse request body
-type SaveSoundRequest struct {
-	File string `json:"file"`
-}
 
 // Handler is executed by AWS Lambda in the main function. Once the request
 // is processed, it returns an Amazon API Gateway response object to AWS Lambda
@@ -28,17 +22,7 @@ func Handler(r events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, e
 		}, nil
 	}
 
-	// events.APIGatewayProxyRequest parse to SavSaveSoundRequest
-	body := r.Body
-	bytes := []byte(body)
-	request := new(SaveSoundRequest)
-
-	if err := json.Unmarshal(bytes, request); err != nil {
-		return events.APIGatewayProxyResponse{}, err
-	}
-	log.Printf("success json.Unmarshal")
-
-	if _, err := uploadFile(request.File); err != nil {
+	if _, err := uploadFile(r.Body); err != nil {
 		return events.APIGatewayProxyResponse{}, err
 	}
 	log.Printf("success uploadFile")
