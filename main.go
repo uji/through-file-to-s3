@@ -24,12 +24,18 @@ func Handler(r events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, e
 	body := r.Body
 	bytes := []byte(body)
 	request := new(SaveSoundRequest)
-	err := json.Unmarshal(bytes, request)
-	if err != nil {
-		return events.APIGatewayProxyResponse{}, err
+
+	if err := json.Unmarshal(bytes, request); err != nil {
+		return events.APIGatewayProxyResponse{
+			StatusCode: 500,
+		}, err
 	}
 
-	uploadFile(request.File)
+	if _, err := uploadFile(request.File); err != nil {
+		return events.APIGatewayProxyResponse{
+			StatusCode: 500,
+		}, err
+	}
 
 	return events.APIGatewayProxyResponse{
 		StatusCode: 200,
