@@ -21,6 +21,13 @@ type SaveSoundRequest struct {
 // is processed, it returns an Amazon API Gateway response object to AWS Lambda
 func Handler(r events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 
+	if r.Headers["Content-Type"] != "multipart/form-data" {
+		return events.APIGatewayProxyResponse{
+			StatusCode: 400,
+			Body:       "Invalid Content-Type",
+		}, nil
+	}
+
 	// events.APIGatewayProxyRequest parse to SavSaveSoundRequest
 	body := r.Body
 	bytes := []byte(body)
