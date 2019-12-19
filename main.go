@@ -27,22 +27,17 @@ func Handler(r events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, e
 	request := new(SaveSoundRequest)
 
 	if err := json.Unmarshal(bytes, request); err != nil {
-		return events.APIGatewayProxyResponse{
-			StatusCode: 500,
-		}, err
+		return events.APIGatewayProxyResponse{}, err
 	}
 	log.Printf("success json.Unmarshal")
 
 	if _, err := uploadFile(request.File); err != nil {
-		return events.APIGatewayProxyResponse{
-			StatusCode: 500,
-		}, err
+		return events.APIGatewayProxyResponse{}, err
 	}
 	log.Printf("success uploadFile")
 
 	return events.APIGatewayProxyResponse{
 		StatusCode: 200,
-		Body:       request.File,
 	}, nil
 }
 
@@ -57,8 +52,8 @@ func uploadFile(data string) (*s3manager.UploadOutput, error) {
 	uploader := s3manager.NewUploader(sess)
 
 	return uploader.Upload(&s3manager.UploadInput{
-		Bucket: aws.String("meeting-sounds-backet"),
-		Key:    aws.String("hoge.png"),
+		Bucket: aws.String("meeting-sounds"),
+		Key:    aws.String("hoge.wav"),
 		Body:   bytes.NewReader([]byte(data)),
 	})
 }

@@ -17,9 +17,7 @@ func TestHandler(t *testing.T) {
 	request := events.APIGatewayProxyRequest{}
 	request.Body = string(bytes)
 
-	expectedResponse := events.APIGatewayProxyResponse{
-		StatusCode: 500,
-	}
+	expectedResponse := events.APIGatewayProxyResponse{}
 
 	response, err := Handler(request)
 	t.Logf("Error: %s", err.Error())
