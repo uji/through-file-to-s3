@@ -60,8 +60,3 @@ Resources:
     Properties:
       BucketName: meeting-sounds
       AccessControl: BucketOwnerFullControl
-      PublicAccessBlockConfiguration:
-        BlockPublicAcls: True
-        BlockPublicPolicy: True
-        IgnorePublicAcls: True
-        RestrictPublicBuckets: True
