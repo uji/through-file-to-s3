@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"log"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -30,12 +31,14 @@ func Handler(r events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, e
 			StatusCode: 500,
 		}, err
 	}
+	log.Printf("success json.Unmarshal")
 
 	if _, err := uploadFile(request.File); err != nil {
 		return events.APIGatewayProxyResponse{
 			StatusCode: 500,
 		}, err
 	}
+	log.Printf("success uploadFile")
 
 	return events.APIGatewayProxyResponse{
 		StatusCode: 200,
