@@ -15,7 +15,9 @@ import (
 // is processed, it returns an Amazon API Gateway response object to AWS Lambda
 func Handler(r events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 
-	if r.Headers["Content-Type"] != "multipart/form-data" {
+	contentType := r.Headers["Content-Type"]
+	log.Printf("Content-Type: %s", contentType)
+	if contentType != "multipart/form-data" {
 		return events.APIGatewayProxyResponse{
 			StatusCode: 400,
 			Body:       "Invalid Content-Type",
