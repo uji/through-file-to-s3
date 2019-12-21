@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"log"
+	"mime"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -15,12 +16,12 @@ import (
 // is processed, it returns an Amazon API Gateway response object to AWS Lambda
 func Handler(r events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 
-	contentType := r.Headers["Content-Type"]
+	contentType, params, err := mime.ParseMediaType(r.Headers["Content-Type"])
 	log.Printf("Content-Type: %s", contentType)
-	if contentType != "multipart/form-data" {
+	log.Printf("boundary: %s", params["boundary"])
+	if err != nil || contentType != "multipart/form-data" {
 		return events.APIGatewayProxyResponse{
 			StatusCode: 400,
-			Body:       "Invalid Content-Type",
 		}, nil
 	}
 
