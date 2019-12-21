@@ -35,10 +35,8 @@ func Handler(r events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, e
 
 	bytes := []byte(r.Body)
 	body := new(requestBody)
-	if json.Unmarshal(bytes, body) != nil {
-		return events.APIGatewayProxyResponse{
-			StatusCode: 400,
-		}, nil
+	if err := json.Unmarshal(bytes, body); err != nil {
+		return events.APIGatewayProxyResponse{}, err
 	}
 	log.Printf("success unmarshal")
 
