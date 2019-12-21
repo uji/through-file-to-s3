@@ -33,14 +33,13 @@ func Handler(r events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, e
 
 	log.Printf("IsBase64Encoded: %t", r.IsBase64Encoded)
 
-	bytes := []byte(r.Body)
 	body := new(requestBody)
-	if err := json.Unmarshal(bytes, body); err != nil {
+	if err := json.Unmarshal([]byte(r.Body), body); err != nil {
 		return events.APIGatewayProxyResponse{}, err
 	}
 	log.Printf("success unmarshal")
 
-	if _, err := uploadFile(r.Body); err != nil {
+	if _, err := uploadFile(body.File); err != nil {
 		return events.APIGatewayProxyResponse{}, err
 	}
 	log.Printf("success uploadFile")
