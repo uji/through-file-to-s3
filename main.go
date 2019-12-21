@@ -25,6 +25,8 @@ func Handler(r events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, e
 		}, nil
 	}
 
+	log.Printf("IsBase64Encoded: %t", r.IsBase64Encoded)
+
 	if _, err := uploadFile(r.Body); err != nil {
 		return events.APIGatewayProxyResponse{}, err
 	}
