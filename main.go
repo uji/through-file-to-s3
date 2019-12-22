@@ -36,7 +36,7 @@ func Handler(r events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, e
 	}
 	log.Printf("success EventToRequest")
 
-	if err := request.ParseMultipartForm(0); err != nil {
+	if err := request.ParseMultipartForm(4096); err != nil {
 		return events.APIGatewayProxyResponse{}, err
 	}
 	log.Printf("success ParseMultipartForm")
