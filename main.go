@@ -11,6 +11,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
+	"github.com/awslabs/aws-lambda-go-api-proxy/core"
 )
 
 // Handler is executed by AWS Lambda in the main function. Once the request
@@ -28,7 +29,19 @@ func Handler(r events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, e
 
 	log.Printf("IsBase64Encoded: %t", r.IsBase64Encoded)
 
-	if _, err := uploadFile(r.Body); err != nil {
+	accessor := core.RequestAccessor{}
+	request, err := accessor.EventToRequest(r)
+	if err != nil {
+		return events.APIGatewayProxyResponse{}, err
+	}
+	log.Printf("success EventToRequest")
+
+	if err := request.ParseMultipartForm(0); err != nil {
+		return events.APIGatewayProxyResponse{}, err
+	}
+	log.Printf("success ParseMultipartForm")
+
+	if _, err := uploadFile(request.PostFormValue("file")); err != nil {
 		return events.APIGatewayProxyResponse{}, err
 	}
 	log.Printf("success uploadFile")
