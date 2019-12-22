@@ -41,7 +41,7 @@ func Handler(r events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, e
 	}
 	log.Printf("success ParseMultipartForm")
 
-	if _, err := uploadFile(request.PostFormValue("file")); err != nil {
+	if _, err := uploadFile(request.FormValue("file")); err != nil {
 		return events.APIGatewayProxyResponse{}, err
 	}
 	log.Printf("success uploadFile")
