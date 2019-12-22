@@ -30,11 +30,12 @@ func Handler(r events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, e
 	log.Printf("IsBase64Encoded: %t", r.IsBase64Encoded)
 
 	accessor := core.RequestAccessor{}
-	request, err := accessor.EventToRequest(r)
+	request, err := accessor.ProxyEventToHTTPRequest(r)
 	if err != nil {
 		return events.APIGatewayProxyResponse{}, err
 	}
 	log.Printf("success EventToRequest")
+	log.Printf("request body: %v", request.Body)
 
 	if err := request.ParseMultipartForm(4096); err != nil {
 		return events.APIGatewayProxyResponse{}, err
