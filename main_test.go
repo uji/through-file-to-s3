@@ -15,13 +15,13 @@ func TestHandler(t *testing.T) {
 
 	expectedResponse := events.APIGatewayProxyResponse{}
 	expectedResponse.StatusCode = 400
-	response, _ := Handler(request)
+	response, err := Handler(request)
 	assert.Equal(t, response.Headers, expectedResponse.Headers)
 
 	request.Headers = map[string]string{"Content-Type": "multipart/form-data"}
 	expectedResponse.StatusCode = 200
 
-	response, _ = Handler(request)
+	response, err = Handler(request)
 	assert.Equal(t, response.Headers, expectedResponse.Headers)
-	// assert.Equal(t, err, nil)
+	assert.Equal(t, err, nil)
 }
