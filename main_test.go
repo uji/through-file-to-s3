@@ -14,14 +14,11 @@ func TestHandler(t *testing.T) {
 	request.Body = "file_body"
 
 	expectedResponse := events.APIGatewayProxyResponse{}
-	expectedResponse.StatusCode = 400
-	response, err := Handler(request)
-	assert.Equal(t, response.Headers, expectedResponse.Headers)
-
-	request.Headers = map[string]string{"Content-Type": "multipart/form-data"}
 	expectedResponse.StatusCode = 200
 
-	response, err = Handler(request)
+	request.Headers = map[string]string{"Content-Type": "multipart/form-data"}
+
+	response, err := Handler(request)
 	assert.Equal(t, response.Headers, expectedResponse.Headers)
 	assert.Equal(t, err, nil)
 }

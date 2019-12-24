@@ -20,10 +20,8 @@ func Handler(r events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, e
 	contentType, params, err := mime.ParseMediaType(r.Headers["Content-Type"])
 	log.Printf("Content-Type: %s", contentType)
 	log.Printf("boundary: %s", params["boundary"])
-	if err != nil || contentType != "multipart/form-data" {
-		return events.APIGatewayProxyResponse{
-			StatusCode: 400,
-		}, err
+	if err != nil {
+		return events.APIGatewayProxyResponse{}, err
 	}
 
 	log.Printf("IsBase64Encoded: %t", r.IsBase64Encoded)
