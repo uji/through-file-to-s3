@@ -17,6 +17,9 @@ import (
 // is processed, it returns an Amazon API Gateway response object to AWS Lambda
 func Handler(r events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 
+	log.Printf("Body: %s", r.Body)
+	log.Print("Params: ", r.QueryStringParameters)
+
 	contentType, params, err := mime.ParseMediaType(r.Headers["Content-Type"])
 	log.Printf("Content-Type: %s", contentType)
 	log.Printf("boundary: %s", params["boundary"])
