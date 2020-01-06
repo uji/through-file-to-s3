@@ -22,6 +22,8 @@ Globals:
       Enabled: true
       Type: Canary10Percent5Minutes
       Role: !Ref CodeDeployRole
+  Api:
+    Cors: "'*'"
 
 Resources:
   GetHelloWorld:
