@@ -73,7 +73,9 @@ func uploadFile(data []byte) (*s3manager.UploadOutput, error) {
 func response(statusCode int) events.APIGatewayProxyResponse {
 	return events.APIGatewayProxyResponse{
 		Headers: map[string]string{
-			"Access-Control-Allow-Origin": "*",
+			"Access-Control-Allow-Origin":  "*",
+			"Access-Control-Allow-Methods": "POST",
+			"Access-Control-Allow-Headers": "Origin Authorization, Accept, Content-Type",
 		},
 		StatusCode: statusCode,
 	}
