@@ -35,15 +35,20 @@ func Handler(r events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, e
 	reader := multipart.NewReader(strings.NewReader(r.Body), params["boundary"])
 	part, err := reader.NextPart()
 	if err != nil {
+		log.Printf(err.Error())
 		return response(400), err
 	}
+	log.Printf("success reader.NextPart")
 
 	buf, err := ioutil.ReadAll(part)
 	if err != nil {
+		log.Printf(err.Error())
 		return response(500), err
 	}
+	log.Printf("success ioutil.ReadAll")
 
 	if _, err := uploadFile(buf); err != nil {
+		log.Printf(err.Error())
 		return response(400), err
 	}
 	log.Printf("success uploadFile")
